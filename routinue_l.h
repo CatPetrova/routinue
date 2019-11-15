@@ -27,7 +27,12 @@
 
 namespace routinue_l{
   bool GetExecuteFilePath(std::basic_string<TCHAR> *exe_path);
+  bool DirectoryExists(const std::basic_string<TCHAR> &dir_path);
+  bool MakeDirectory(const std::basic_string<TCHAR> &dir_path);
+
   std::basic_string<TCHAR> GetLocalTime();
+
+
   void duration();
   void log();
 }
