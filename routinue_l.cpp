@@ -1,4 +1,4 @@
-#include "stdAfx.h"
+#include "stdafx.h"
 #include "routinue_l.h"
 #include <iomanip>
 #include <ctime>
@@ -129,6 +129,18 @@ bool MakeDirectory(const std::basic_string<TCHAR>& dir_path) {
   ret = static_cast<bool>(CreateDirectory(path.c_str(), &SecurityAttributes));
 
   return ret;
+}
+
+CompFloatingRes CompFloating(const double &num1, const double &num2) {
+  constexpr float kPosInfinitesimal = 0.000000000001;
+  constexpr float kNegInfinitesimal = -0.000000000001;
+  double diff = num1 - num2;
+
+  if ((diff < kNegInfinitesimal))
+    return CompFloatingRes::kLess;
+  if (diff > kPosInfinitesimal) 
+    return CompFloatingRes::kGreater;
+  return CompFloatingRes::kEqual;
 }
 
 }
