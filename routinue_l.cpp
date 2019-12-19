@@ -132,8 +132,8 @@ bool MakeDirectory(const std::basic_string<TCHAR>& dir_path) {
 }
 
 CompFloatingRes CompFloating(const double &num1, const double &num2) {
-  constexpr float kPosInfinitesimal = 0.000000000001;
-  constexpr float kNegInfinitesimal = -0.000000000001;
+  constexpr double kPosInfinitesimal = 0.000000000001;
+  constexpr double kNegInfinitesimal = -0.000000000001;
   double diff = num1 - num2;
 
   if ((diff < kNegInfinitesimal))
