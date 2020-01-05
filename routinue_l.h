@@ -20,6 +20,15 @@ namespace routinue_l{
   void log();
 
   CompFloatingRes CompFloating(const double &num1, const double &num2);
+
+  //返回值是一个wchat_t数组，需要手动释放:delete []
+  wchar_t *MultiByteToWideChar(const std::string &mbcs);
+  void MultiByteToWideChar(const std::string &mbcs, std::wstring *utf_16);
+
+  //返回值是一个wchat_t数组，需要手动释放:delete []
+  char *WideCharToMultiByte(const std::wstring &utf_16);
+  void WideCharToMultiByte(const std::wstring &utf_16, std::string *mbcs);
+
 }
 
 #endif

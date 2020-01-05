@@ -143,4 +143,69 @@ CompFloatingRes CompFloating(const double &num1, const double &num2) {
   return CompFloatingRes::kEqual;
 }
 
+wchar_t *MultiByteToWideChar(const std::string &mbcs) {
+  wchar_t *wide_char = nullptr;
+  int wide_char_size = 0;
+
+  wide_char_size = ::MultiByteToWideChar(CP_ACP,
+                                        0,
+                                        mbcs.c_str(),
+                                        static_cast<int>(mbcs.size()),
+                                        wide_char,
+                                        0) + 1;
+  wide_char = new wchar_t[wide_char_size]();
+  memset(wide_char, _T('\0'), wide_char_size * sizeof(wchar_t));
+  ::MultiByteToWideChar(CP_ACP,
+                        0,
+                        mbcs.c_str(),
+                        static_cast<int>(mbcs.size()),
+                        wide_char,
+                        wide_char_size);
+  
+  return wide_char;
+}
+
+void MultiByteToWideChar(const std::string &mbcs, std::wstring *utf_16) {
+  wchar_t *wide_char = nullptr;
+
+  wide_char = MultiByteToWideChar(mbcs);
+  utf_16->assign(wide_char);
+  delete []wide_char;
+  wide_char = nullptr;
+}
+
+char *WideCharToMultiByte(const std::wstring &utf_16) {
+  char *mbcs = nullptr;
+  int mbcs_size = 0;
+
+  mbcs_size = ::WideCharToMultiByte(CP_ACP,
+                                    0,
+                                    utf_16.c_str(),
+                                    static_cast<int>(utf_16.size()),
+                                    mbcs,
+                                    0,
+                                    NULL,
+                                    FALSE) + 1;
+  mbcs = new char[mbcs_size]();
+  memset(mbcs, '\0', mbcs_size * sizeof(char));
+  ::WideCharToMultiByte(CP_ACP,
+                        0,
+                        utf_16.c_str(),
+                        static_cast<int>(utf_16.size()),
+                        mbcs,
+                        mbcs_size,
+                        NULL,
+                        FALSE);
+  return mbcs;
+}
+
+void WideCharToMultiByte(const std::wstring &utf_16, std::string *mbcs) {
+  char *mbcs_string = nullptr;
+
+  mbcs_string = WideCharToMultiByte(utf_16);
+  mbcs->assign(mbcs_string);
+  delete []mbcs_string;
+  mbcs_string = nullptr;
+}
+
 }
