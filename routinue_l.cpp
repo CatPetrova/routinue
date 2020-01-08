@@ -6,6 +6,7 @@
 #include <sstream>
 #include <fstream>
 #include <chrono>
+#include <queue>
 #include <cassert>
 
 namespace routinue_l{
@@ -208,4 +209,22 @@ void WideCharToMultiByte(const std::wstring &utf_16, std::string *mbcs) {
   mbcs_string = nullptr;
 }
 
+std::queue<std::chrono::high_resolution_clock::time_point> Time::time_que_;
+int64_t Time::GetCostTime() {
+  int64_t cost_time = 0;
+  std::chrono::high_resolution_clock::time_point tm_pt = std::chrono::high_resolution_clock::now();
+  if (time_que_.size() == 1) {
+    std::chrono::milliseconds ms = std::chrono::duration_cast<std::chrono::milliseconds>(tm_pt - time_que_.front());
+    cost_time = ms.count();
+    time_que_.pop();
+  }
+  time_que_.push(tm_pt);
+  return cost_time;
+}
+
+void Time::init() {
+  while(!time_que_.empty())
+    time_que_.pop();
+  time_que_.push(std::chrono::high_resolution_clock::now());
+}
 }
