@@ -9,6 +9,8 @@
 #include <queue>
 #include <cassert>
 
+#pragma warning(disable: 4800)
+
 namespace routinue_l{
 
 bool GetExecuteFilePath(std::basic_string<TCHAR> *exe_path){
