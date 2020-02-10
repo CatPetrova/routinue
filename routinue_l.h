@@ -5,6 +5,7 @@
 #include <queue>
 #include <chrono>
 #include <cstdint>
+#include <list>
 
 namespace routinue_l{
 enum class CompFloatingRes {
@@ -18,6 +19,7 @@ bool DirectoryExists(const std::basic_string<TCHAR> &dir_path);
 bool MakeDirectory(const std::basic_string<TCHAR> &dir_path);
 
 std::basic_string<TCHAR> GetLocalTime();
+std::basic_string<TCHAR> GetThreadStr();
 
 void duration();
 void log();

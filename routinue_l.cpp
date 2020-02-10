@@ -5,6 +5,7 @@
 #include <string>
 #include <sstream>
 #include <fstream>
+#include <thread>
 #include <chrono>
 #include <queue>
 #include <cassert>
@@ -228,5 +229,13 @@ void Time::init() {
   while(!time_que_.empty())
     time_que_.pop();
   time_que_.push(std::chrono::high_resolution_clock::now());
+}
+
+std::basic_string<TCHAR> GetThreadStr() {
+  std::basic_stringstream<TCHAR> id_stream;
+
+  std::thread::id id = std::this_thread::get_id();
+  id_stream << id;
+  return id_stream.str();
 }
 }
