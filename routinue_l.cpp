@@ -9,6 +9,7 @@
 #include <chrono>
 #include <queue>
 #include <cassert>
+#include <algorithm>
 
 #pragma warning(disable: 4800)
 
@@ -20,7 +21,7 @@ bool GetExecuteFilePath(std::basic_string<TCHAR> *exe_path){
   TCHAR path[kMaxPath] = _T("\0");
   bool ret = false;
 
-  ret_code = GetModuleFileName(nullptr, path, sizeof(path));
+  ret_code = GetModuleFileName(nullptr, path, static_cast<DWORD>(_tcslen(path)));
   if ((ret_code != 0) && (GetLastError() == ERROR_SUCCESS)) {
     exe_path->assign(path);
     exe_path->erase(exe_path->rfind(_T('\\')));
@@ -158,7 +159,7 @@ wchar_t *MultiByteToWideChar(const std::string &mbcs) {
                                         wide_char,
                                         0) + 1;
   wide_char = new wchar_t[wide_char_size]();
-  memset(wide_char, _T('\0'), wide_char_size * sizeof(wchar_t));
+  std::fill(wide_char, wide_char + wide_char_size, L'\0');
   ::MultiByteToWideChar(CP_ACP,
                         0,
                         mbcs.c_str(),
@@ -191,6 +192,7 @@ char *WideCharToMultiByte(const std::wstring &utf_16) {
                                     NULL,
                                     FALSE) + 1;
   mbcs = new char[mbcs_size]();
+  std::fill(mbcs, mbcs + mbcs_size, '\0');
   memset(mbcs, '\0', mbcs_size * sizeof(char));
   ::WideCharToMultiByte(CP_ACP,
                         0,
