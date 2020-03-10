@@ -21,7 +21,7 @@ bool GetExecuteFilePath(std::basic_string<TCHAR> *exe_path){
   TCHAR path[kMaxPath] = _T("\0");
   bool ret = false;
 
-  ret_code = GetModuleFileName(nullptr, path, static_cast<DWORD>(_tcslen(path)));
+  ret_code = GetModuleFileName(nullptr, path, sizeof(path) / sizeof(TCHAR));
   if ((ret_code != 0) && (GetLastError() == ERROR_SUCCESS)) {
     exe_path->assign(path);
     exe_path->erase(exe_path->rfind(_T('\\')));
