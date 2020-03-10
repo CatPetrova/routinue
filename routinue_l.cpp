@@ -10,6 +10,7 @@
 #include <queue>
 #include <cassert>
 #include <algorithm>
+#include <Windows.h>
 
 #pragma warning(disable: 4800)
 
@@ -77,6 +78,12 @@ bool DirectoryExists(const std::basic_string<TCHAR> &dir_path) {
   HANDLE hFind;
 
   assert(length > 0);
+  assert(path.length() >= 3);
+
+  if (path.length() == 3){//磁盘根目录
+    if (GetDriveType(path.c_str()) == DRIVE_NO_ROOT_DIR) return false;
+    else return true;
+  }
 
   if (path.at(length - 1) == _T('\\'))
     path.replace(length - 1, 1, 1, _T('\0')); // 删除末尾的"\"
@@ -103,6 +110,9 @@ bool MakeDirectory(const std::basic_string<TCHAR>& dir_path) {
   bool ret = false;
 
   if (path.empty())
+    return false;
+
+  if (path.length() <= 3) //磁盘根目录 无法创建
     return false;
 
   if (DirectoryExists(path))
